@@ -32,7 +32,7 @@ npm install
 
 Start the Development Server
 
-npm start
+npm run dev
 
 Access the App
 Open your browser and navigate to:
