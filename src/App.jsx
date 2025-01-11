@@ -10,8 +10,16 @@ function App() {
   const [score, setScore] = useState(0);
   const [quizStarted, setQuizStarted] = useState(false);
   const [quizComplete, setQuizComplete] = useState(false);
-
+  const [userAnswers, setUserAnswers] = useState([]);
+  const [quizConfig, setQuizConfig] = useState({
+    category: "",
+    difficulty: "",
+    amount: 5,
+  });
+  const [loading, setLoading] = useState(false);
   const startQuiz = (category, difficulty, amount) => {
+    setQuizConfig({ category, difficulty, amount });
+    setLoading(true);
     fetch(
       `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`
     )
@@ -23,6 +31,7 @@ function App() {
           setQuizComplete(false);
           setCurrentQuestionIndex(0);
           setScore(0);
+          setUserAnswers([]); // Reset user answers
         } else {
           alert(
             "No questions available for the selected options. Please try different settings."
@@ -32,10 +41,19 @@ function App() {
       .catch((error) => {
         console.error("Error fetching quiz questions:", error);
         alert("Failed to load quiz questions. Please try again.");
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
-  const handleAnswer = (isCorrect) => {
+  // const handleAnswer = (isCorrect) => {
+  //   if (isCorrect) setScore(score + 1);
+  // };
+  const handleAnswer = (isCorrect, selectedOption) => {
+    const currentQuestion = questions[currentQuestionIndex];
+    setUserAnswers((prev) => [
+      ...prev,
+      { question: currentQuestion.question, selectedOption, isCorrect },
+    ]);
     if (isCorrect) setScore(score + 1);
   };
 
@@ -47,17 +65,29 @@ function App() {
       setQuizStarted(false);
     }
   };
+  // Restart the quiz with the same category and difficulty
+  const retakeQuiz = () => {
+    setTimeout(() => {
+      startQuiz(quizConfig.category, quizConfig.difficulty, quizConfig.amount);
+    }, 90);
+  };
 
+  // Start a new quiz by resetting everything
   const resetQuiz = () => {
     setQuizStarted(false);
     setQuizComplete(false);
     setQuestions([]);
-    setScore(0);
     setCurrentQuestionIndex(0);
+    setScore(0);
+    setSelectedAnswer(null);
+    setUserAnswers([]); // Reset user answers
   };
 
   return (
     <div className="App">
+      {loading && (
+        <p className="text-2xl font-bold text-center mt-10">Loading quiz...</p>
+      )}
       {!quizStarted && !quizComplete && <QuizStart onStart={startQuiz} />}
       {quizStarted && !quizComplete && (
         <QuestionCard
@@ -70,7 +100,9 @@ function App() {
         <ScoreSummary
           score={score}
           total={questions.length}
-          onRestart={resetQuiz}
+          userAnswers={userAnswers}
+          onRetake={retakeQuiz}
+          onNewTopic={resetQuiz}
         />
       )}
     </div>
