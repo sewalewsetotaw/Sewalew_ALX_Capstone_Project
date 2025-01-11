@@ -3,7 +3,7 @@ import "./App.css";
 import QuizStart from "./components/QuizStart";
 import QuestionCard from "./components/QuestionCard";
 import ScoreSummary from "./components/ScoreSummary";
-
+import QuizHistory from "./components/QuizHistory";
 function App() {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -17,6 +17,8 @@ function App() {
     amount: 5,
   });
   const [loading, setLoading] = useState(false);
+  const [showHistory, setShowHistory] = useState(false); // State to toggle history display
+  const [quizHistory, setQuizHistory] = useState([]); // State to track quiz history
   const startQuiz = (category, difficulty, amount) => {
     setQuizConfig({ category, difficulty, amount });
     setLoading(true);
@@ -63,6 +65,15 @@ function App() {
     } else {
       setQuizComplete(true);
       setQuizStarted(false);
+      // Update quiz history on quiz completion
+      const newQuiz = {
+        date: new Date().toLocaleString(),
+        category: quizConfig.category,
+        difficulty: quizConfig.difficulty,
+        score,
+        total: questions.length,
+      };
+      setQuizHistory((prev) => [...prev, newQuiz]);
     }
   };
   // Restart the quiz with the same category and difficulty
@@ -88,7 +99,18 @@ function App() {
       {loading && (
         <p className="text-2xl font-bold text-center mt-10">Loading quiz...</p>
       )}
-      {!quizStarted && !quizComplete && <QuizStart onStart={startQuiz} />}
+      {!quizStarted && !quizComplete && (
+        <>
+          <QuizStart onStart={startQuiz} />
+          <button
+            onClick={() => setShowHistory(!showHistory)}
+            className="bg-blue-500 text-white px-4 py-2 mt-4 rounded"
+          >
+            {showHistory ? "Hide Quiz History" : "Show Quiz History"}
+          </button>
+          {showHistory && <QuizHistory history={quizHistory} />}
+        </>
+      )}
       {quizStarted && !quizComplete && (
         <QuestionCard
           question={questions[currentQuestionIndex]}

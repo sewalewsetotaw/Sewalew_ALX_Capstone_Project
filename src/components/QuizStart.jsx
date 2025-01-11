@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-function QuizStart({ onStart }) {
+const QuizStart = ({ onStart }) => {
   const [categories, setCategories] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -94,10 +94,9 @@ function QuizStart({ onStart }) {
             Start Quiz
           </button>
         </div>
-        <button>View History</button>
       </div>
     </div>
   );
-}
+};
 
 export default QuizStart;

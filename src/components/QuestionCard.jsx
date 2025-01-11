@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-function decodeHtmlEntities(html) {
+const decodeHtmlEntities = (html) => {
   const textArea = document.createElement("textarea");
   textArea.innerHTML = html;
   return textArea.value;
-}
+};
 
-function QuestionCard({ question, onAnswer, onNext }) {
+const QuestionCard = ({ question, onAnswer, onNext }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
 
@@ -77,6 +77,6 @@ function QuestionCard({ question, onAnswer, onNext }) {
       </div>
     </div>
   );
-}
+};
 
 export default QuestionCard;

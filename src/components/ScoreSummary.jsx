@@ -1,6 +1,6 @@
 import React from "react";
 
-function ScoreSummary({ score, total, userAnswers, onRetake, onNewTopic }) {
+const ScoreSummary = ({ score, total, userAnswers, onRetake, onNewTopic }) => {
   const correctAnswers = userAnswers.filter(
     (answer) => answer.isCorrect
   ).length;
@@ -42,6 +42,6 @@ function ScoreSummary({ score, total, userAnswers, onRetake, onNewTopic }) {
       </div>
     </div>
   );
-}
+};
 
 export default ScoreSummary;
