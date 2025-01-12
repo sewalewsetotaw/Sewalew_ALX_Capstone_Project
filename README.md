@@ -6,7 +6,7 @@ A responsive and interactive quiz application built with React and styled using 
 
     Fetch trivia questions dynamically from the Open Trivia Database API.
     Customize quiz options such as category, difficulty, and question type.
-    Supports multiple-choice and true/false questions.
+    Supports multiple-choice questions.
     Real-time scoring and feedback.
     Fully responsive design, optimized for both desktop and mobile devices.
 
@@ -22,17 +22,17 @@ Follow these steps to set up the project locally:
 
     Clone the Repository
 
-git clone git@github.com:sewalewsetotaw/Sewalew_ALX_Capstone_Project.git  
-cd Sewalew_ALX_Capstone_Project
+        git clone git@github.com:sewalewsetotaw/Sewalew_ALX_Capstone_Project.git  
+        cd Sewalew_ALX_Capstone_Project
 
-Install Dependencies
-Ensure you have Node.js installed. Then, run:
+    Install Dependencies
+    Ensure you have Node.js installed. Then, run:
 
-npm install
+    npm install
 
-Start the Development Server
+    Start the Development Server
 
-npm run dev
+    npm run dev
 
 Access the App
 Open your browser and navigate to:
